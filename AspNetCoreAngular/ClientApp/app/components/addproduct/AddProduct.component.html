@@ -1,0 +1,58 @@
+﻿<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title></title>
+</head>
+<body>
+    <h1>{{title}}</h1>
+    <h3>Product</h3>
+    <hr />
+    <form [formGroup]="productForm" (ngSubmit)="save()" #formDir="ngForm" novalidate>
+        <div class="form-group row">
+            <label class=" control-label col-md-12" for="Name">Name</label>
+            <div class="col-md-4">
+                <input class="form-control" type="text" formControlName="name">
+            </div>
+            <span class="text-danger" *ngIf="productForm.hasError('required', 'name') && formDir.submitted">
+                Name is required.
+            </span>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-md-12" for="Details">Details</label>
+            <div class="col-md-4">
+                <textarea class="form-control" type="text" rows="4" formControlName="details"></textarea>
+            </div>
+            <span class="text-danger" *ngIf="productForm.hasError('required', 'details') && formDir.submitted">
+                Details is required
+            </span>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-md-12" for="ColorId">Color</label>
+            <div class="col-md-4">
+                <select class="form-control" data-val="true" formControlName="colorId">
+                    <option *ngFor="let color of colors" value={{color.id}}>
+                        {{color.name}}
+                    </option>
+                </select>
+            </div>
+            <span class="text-danger" *ngIf="productForm.hasError('required', 'colorId') && formDir.submitted">
+                Color is required
+            </span>
+        </div>
+        <div class="form-group row">
+            <label class="control-label col-md-12" for="Quantity">Quantity</label>
+            <div class="col-md-4">
+                <input class="form-control" type="number" formControlName="quantity">
+            </div>
+            <span class="text-danger" *ngIf="productForm.hasError('required', 'quantity') && formDir.submitted">
+                Quantity is required
+            </span>
+        </div>
+        <div class="form-group">
+            <button type="submit" class="btn btn-default">Save</button>
+            <button class="btn" (click)="cancel()">Cancel</button>
+        </div>
+    </form>
+</body>
+</html>

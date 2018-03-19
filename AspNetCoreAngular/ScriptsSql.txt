@@ -1,0 +1,166 @@
+﻿CREATE DATABASE AspNetCoreAngular;
+
+-- CREATE PRODUCT TABLE;
+Create table Product(
+    Id int IDENTITY(1,1) NOT NULL,
+    Name varchar(100) NOT NULL,
+	Details varchar(250) NOT NULL,
+	Quantity int NOT NULL
+)
+
+-- INSERT PRODUCT;
+Create procedure sp_AddProduct
+(
+    @Name VARCHAR(100),
+    @Details VARCHAR(250),
+    @Quantity INT
+)        
+as         
+Begin         
+    Insert into Product (Name,Details,Quantity)         
+    Values (@Name,@Details,@Quantity)         
+End
+
+-- UPDATE PRODUCT;
+Create procedure sp_UpdateProduct
+(
+	@Id INTEGER,
+	@Name VARCHAR(100),
+	@Details VARCHAR(250),
+	@Quantity INT
+)       
+as
+begin
+   Update Product        
+   set Name=@Name,
+   Details=@Details,
+   Quantity=@Quantity
+   where Id=@Id
+End
+
+-- DELETE PRODUCT;
+Create procedure sp_DeleteProduct
+(
+   @Id int        
+)       
+as
+begin
+   Delete from Product where Id=@Id
+End
+
+-- SELECT ALL PRODUCTS;
+Create procedure sp_GetAllProducts
+as
+Begin
+    select *      
+    from Product
+    order by Id
+End
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+
+-- CREATE PRODUCT COLOR;
+Create table Color(
+    Id int IDENTITY(1,1) NOT NULL,
+    Name varchar(80) NOT NULL
+)
+
+-- INSERT COLOR;
+Create procedure sp_AddColor
+(
+    @Name VARCHAR(80)
+)        
+as         
+Begin         
+    Insert into Color (Name)
+    Values (@Name)
+End
+
+-- UPDATE COLOR;
+Create procedure sp_UpdateColor
+(
+	@Id INTEGER,
+	@Name VARCHAR(80)
+)       
+as
+begin
+   Update Color
+   set Name=@Name
+   where Id=@Id
+End
+
+-- DELETE COLOR;
+Create procedure sp_DeleteColor
+(
+   @Id int        
+)       
+as
+begin
+   Delete from Color where Id=@Id
+End
+
+-- SELECT ALL COLORS;
+Create procedure sp_GetAllColors
+as
+Begin
+    select *
+    from Color
+    order by Id
+End
+
+
+
+-----------------------------------------------------------------------------------------------------------------------------
+
+ALTER TABLE PRODUCT ADD ColorId INT NOT NULL
+
+
+-- INSERT PRODUCT;
+Alter procedure sp_AddProduct
+(
+    @Name VARCHAR(100),
+    @Details VARCHAR(250),
+    @Quantity INT,
+	@ColorId INT
+)        
+as         
+Begin         
+    Insert into Product (Name,Details,Quantity,ColorId)
+    Values (@Name,@Details,@Quantity,@ColorId)
+End
+
+
+
+-- UPDATE PRODUCT;
+Alter procedure sp_UpdateProduct
+(
+	@Id INTEGER,
+	@Name VARCHAR(100),
+	@Details VARCHAR(250),
+	@Quantity INT,
+	@ColorId INT
+)       
+as
+begin
+   Update Product        
+   set Name=@Name,
+   Details=@Details,
+   Quantity=@Quantity,
+   ColorId=@ColorId
+   where Id=@Id
+End
+
+
+
+
+
+-- SELECT ALL PRODUCTS;
+ALTER procedure sp_GetAllProducts
+as
+Begin
+    select Product.*, Color.Id as 'ColorId', Color.Name as 'ColorName'
+    from Product
+	INNER JOIN Color on Color.Id = ColorId
+    order by Id
+End

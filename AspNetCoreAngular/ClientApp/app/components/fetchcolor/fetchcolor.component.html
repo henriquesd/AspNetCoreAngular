@@ -1,0 +1,27 @@
+﻿<h1>Color List</h1>
+
+<p *ngIf="!colorList"><em>Loading...</em></p>
+
+<p>
+    <a [routerLink]="['/register-color']">Create New</a>
+</p>
+
+<table class='table' *ngIf="colorList">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Name</th>
+        </tr>
+    </thead>
+    <tbody>
+        <tr *ngFor="let color of colorList">
+            <td>{{ color.id }}</td>
+            <td>{{ color.name }}</td>
+            <td>
+            <td>
+                <a [routerLink]="['/color/edit/', color.id]">Edit</a> |
+                <a [routerLink]="" (click)="delete(color.id)">Delete</a>
+            </td>
+        </tr>
+    </tbody>
+</table>
